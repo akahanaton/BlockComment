@@ -147,12 +147,43 @@ function! Comment() range
 			endif
 			call setline( l:midline, l:pad . s:comment_mid0 . l:line )
             " else end block
-            elseif l:block == 1
+        elseif strpart( l:line, 0, l:indent ) != l:pad
+			if l:block == 0
+				call append( l:midline - 1, l:pad . s:comment_strt . s:comment_pad )
+				let l:midline = l:midline + 1
+				let l:lastln = l:lastln + 1
+				let l:block = 1
+			endif
+			let l:lineOld = l:line
+            let l:tabCount = len(substitute(l:line, '^\t\+', '', ''))
+            let l:lineNew = substitute(l:lineOld, '^\t\+', '', '')
+            let l:curPad = ""
+            let l:j = 0
+            while l:j < l:tabCount
+                let l:curPad = l:curPad . "    "
+                let l:j = l:j + 1
+            endwhile
+			" handle comments within comments
+			if s:comment_bkup == 1
+				let l:lineNew = substitute( l:lineNew, escape( s:comment_strt, '\*^$.~[]' ), s:comment_strtbak, "g" )
+				let l:lineNew = substitute( l:lineNew, escape( s:comment_stop, '\*^$.~[]' ), s:comment_stopbak, "g" )
+			endif
+			call setline( l:midline, l:curPad . s:comment_mid0 . l:lineNew )
+            "--------------------------------------------------
+            " echomsg(strpart( l:line, 0, l:indent ))
+            "--------------------------------------------------
+            "--------------------------------------------------
+            " let l:indentCur = indent( l:line )
+            " echomsg(l:indent . "test1")
+            " echomsg(l:indentCur . "test2")
+            " echomsg(l:tabCount . "test3")
+            "--------------------------------------------------
+        elseif l:block == 1
 			call append( l:midline - 1, l:pad . s:comment_mid1 . s:comment_pad . s:comment_stop )
 			let l:midline = l:midline + 1
 			let l:lastln = l:lastln + 1
 			let l:block = 0
-            endif
+        endif
 		let l:midline = l:midline + 1
 	endwhile
 	" end block
