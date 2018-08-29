@@ -91,7 +91,7 @@ function! CommentStr()
 	elseif &ft == "html" || &ft == "xml" || &ft == "entity"
 		let s:comment_strt = '<!--'
 		let s:comment_mid0 = '! '
-		let s:comment_mid1 = '!'
+		let s:comment_mid1 = '<!'
 		let s:comment_stop = '-->'
 		let s:comment_bkup = 1
 		let s:comment_strtbak = '< !--'
