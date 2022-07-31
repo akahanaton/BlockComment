@@ -65,9 +65,9 @@ function! CommentStr()
 		let s:comment_strtbak = '/ *'
 		let s:comment_stopbak = '* /'
 	elseif &ft == "cpp" || &ft == "java" || &ft == "javascript" || &ft == "php" || &ft == "cs" || &ft == "typescript"
-		let s:comment_strt = '//'
+		let s:comment_strt = '// '
 		let s:comment_mid0 = '// '
-		let s:comment_mid1 = '//'
+		let s:comment_mid1 = '// '
 		let s:comment_stop = ''
 		let s:comment_bkup = 0
 	elseif &ft == "asm" || &ft == "lisp" || &ft == "scheme"
